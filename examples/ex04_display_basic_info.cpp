@@ -98,7 +98,7 @@ int wam_main(int argc, char** argv, ProductManager& pm, systems::Wam<DOF>& wam) 
 	line++;
 	mvprintw(line++,0, "                            ");
 	mvprintw(line++,0, "    Tool Orientation (mat): ");
-	mvprintw(line++,0, "                            ");
+	mvprintw(line++,0, "     (world-to-tool)        ");
 	line++;
 
 	if (fts != NULL) {
