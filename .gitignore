@@ -1,0 +1,82 @@
+# git mergetools
+*.orig
+*.egg*
+*.log
+
+*.pyc
+dist
+venv
+*.egg-info
+
+*.bak
+
+# Eclipse/Project Specific
+RemoteSystemsTempFiles/
+build/
+Release/
+.vscode
+Debug*/
+
+# Compiled doxygen
+docs/html
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.so.*
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Doxygen generated files/directories
+html/
+latex/
+Debug/
+*.o
+*.elf
+*.hex
+*.map
+*~
+*.gcda
+*.gcno
+**/tests/test
+*.mk
+
+# CMake generated files
+*CMakeFiles/
+*Makefile
+*.cmake
+*CMakeCache.txt
+*install_manifest.txt
+
+# Ignore vim swap files
+.*.swp
+.*.swo
+.*.swn
+
+# Libbarrett generated files
+Doxyfile
+include/barrett/config.h
