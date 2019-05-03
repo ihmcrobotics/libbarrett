@@ -80,9 +80,3 @@ Debug/
 # Libbarrett generated files
 Doxyfile
 include/barrett/config.h
-
-# Libbarrett binaries
-programs/bt-wam-autotension
-programs/bt-wam-gravitycal
-programs/bt-wam-zerocal
-
