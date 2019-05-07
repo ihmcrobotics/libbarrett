@@ -24,31 +24,31 @@ using namespace barrett;
 using detail::waitForEnter;
 
 void printMenu() {
-	printf("Commands:\n");
-	printf("  p  Enter a tool pose destination and move to that pose\n");
-	printf("  r  Record the current pose\n");
-	printf("  m  Move to recorded pose\n");
-	printf("  h  Move to the home position\n");
-	printf("  i  Idle (release position/orientation constraints)\n");
-	printf("  ?  Print this menu\n");
-	printf("  q  Quit\n");
+  printf("Commands:\n");
+  printf("  p  Enter a tool pose destination and move to that pose\n");
+  printf("  r  Record the current pose\n");
+  printf("  m  Move to recorded pose\n");
+  printf("  h  Move to the home position\n");
+  printf("  i  Idle (release position/orientation constraints)\n");
+  printf("  ?  Print this menu\n");
+  printf("  q  Quit\n");
 }
 
 bool parsePose(boost::tuple<math::Matrix<3,1,units::CartesianPosition>,
                             Eigen::Quaterniond>* dest,
                const std::string& str) {
-	const char* cur = str.c_str();
-	const char* next = cur;
+  const char* cur = str.c_str();
+  const char* next = cur;
 
   // Parse position
-	for (int i = 0; i < 3; ++i) {
-		(boost::get<0>(*dest))[i] = strtod(cur, (char**) &next);
-		if (cur == next) {
-			return false;
-		} else {
-			cur = next;
-		}
-	}
+  for (int i = 0; i < 3; ++i) {
+    (boost::get<0>(*dest))[i] = strtod(cur, (char**) &next);
+    if (cur == next) {
+      return false;
+    } else {
+      cur = next;
+    }
+  }
 
   // Parse orientation
   (boost::get<1>(*dest)).w() = strtod(cur, (char**) &next);
@@ -57,24 +57,24 @@ bool parsePose(boost::tuple<math::Matrix<3,1,units::CartesianPosition>,
   } else {
     cur = next;
   }
-	for (int i = 0; i < 3; ++i) {
-		(boost::get<1>(*dest)).vec()[i] = strtod(cur, (char**) &next);
-		if (cur == next) {
-			return false;
-		} else {
-			cur = next;
-		}
-	}
+  for (int i = 0; i < 3; ++i) {
+    (boost::get<1>(*dest)).vec()[i] = strtod(cur, (char**) &next);
+    if (cur == next) {
+      return false;
+    } else {
+      cur = next;
+    }
+  }
 
-	// Make sure there are no extra numbers in the string.
-	double ignore = strtod(cur, (char**) &next);
-	(void)ignore;  // Prevent unused variable warnings
+  // Make sure there are no extra numbers in the string.
+  double ignore = strtod(cur, (char**) &next);
+  (void)ignore;  // Prevent unused variable warnings
 
-	if (cur != next) {
-		return false;
-	}
+  if (cur != next) {
+    return false;
+  }
 
-	return true;
+  return true;
 }
 
 void printPose(boost::tuple<math::Matrix<3,1,units::CartesianPosition>,
@@ -89,23 +89,23 @@ void printPose(boost::tuple<math::Matrix<3,1,units::CartesianPosition>,
 
 template<size_t DOF>
 int wam_main(int argc, char** argv, ProductManager& pm, systems::Wam<DOF>& wam) {
-	BARRETT_UNITS_TEMPLATE_TYPEDEFS(DOF); 
-	pose_type p1;
-	pose_type p2;
+  BARRETT_UNITS_TEMPLATE_TYPEDEFS(DOF); 
+  pose_type p1;
+  pose_type p2;
   bool recorded = false;
 
-	wam.gravityCompensate();
-	printMenu();
+  wam.gravityCompensate();
+  printMenu();
 
-	std::string line;
-	bool going = true;
-	while (going && (pm.getSafetyModule()->getMode() == SafetyModule::ACTIVE)) {
-		printf(">>> ");
-		std::getline(std::cin, line);
+  std::string line;
+  bool going = true;
+  while (going && (pm.getSafetyModule()->getMode() == SafetyModule::ACTIVE)) {
+    printf(">>> ");
+    std::getline(std::cin, line);
 
-		switch (line[0]) {
-		case 'p':
-			if (parsePose(&p2, line.substr(1))) {
+    switch (line[0]) {
+    case 'p':
+      if (parsePose(&p2, line.substr(1))) {
         printPose(p2);
         wam.idle();
         wam.moveTo(p2);
@@ -114,14 +114,14 @@ int wam_main(int argc, char** argv, ProductManager& pm, systems::Wam<DOF>& wam) 
           "whitespace. (3 for position vector, 4 for orientation quaternion " <<
           "[w, x, y, z])" << std::endl;
       }
-			break;
+      break;
 
-		case 'r':
+    case 'r':
       p1 = wam.getToolPose();
       recorded = true;
-			break;
+      break;
 
-		case 'm':
+    case 'm':
       if (recorded) {
         printPose(p1);
         wam.idle();
@@ -129,43 +129,43 @@ int wam_main(int argc, char** argv, ProductManager& pm, systems::Wam<DOF>& wam) 
       } else {
         std::cout << "Press 'r' to record a position." << std::endl;
       }
-			break;
+      break;
 
-		case 'h':
-			std::cout << "Moving to home position: "
-					<< wam.getHomePosition() << std::endl;
+    case 'h':
+      std::cout << "Moving to home position: "
+          << wam.getHomePosition() << std::endl;
       wam.idle();
-			wam.moveHome();
-			break;
+      wam.moveHome();
+      break;
 
-		case 'i':
+    case 'i':
       std::cout << "WAM idled." << std::endl;
-			wam.idle();
-			break;
+      wam.idle();
+      break;
 
-		case '?':
+    case '?':
       printMenu();
-			break;
+      break;
 
-		case 'q':
-		case 'x':
-			going = false;
-			break;
+    case 'q':
+    case 'x':
+      going = false;
+      break;
 
-		default:
-			if (line.size() != 0) {
+    default:
+      if (line.size() != 0) {
         std::cout << "Unrecognized option." << std::endl;
-				printMenu();
-			}
-			break;
-		}
-	}
+        printMenu();
+      }
+      break;
+    }
+  }
 
   printf("Quitting.\n");
-	if (pm.getSafetyModule()->getMode() == SafetyModule::ACTIVE) {
+  if (pm.getSafetyModule()->getMode() == SafetyModule::ACTIVE) {
     wam.moveHome();
     wam.idle();
     pm.getSafetyModule()->waitForMode(SafetyModule::IDLE);
   }
-	return 0;
+  return 0;
 }
