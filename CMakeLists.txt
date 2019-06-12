@@ -153,17 +153,17 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/barrett-config.cmake.in ${PROJECT_SOU
 	ESCAPE_QUOTES @ONLY
 )
 if (CONFIG_DEBIAN)	
-  if (NON_REALTIME)
-    message(STATUS "Using standard barrett-config-non-realtime.cmake for Debian installation.")
-    install(FILES ${PROJECT_SOURCE_DIR}/cmake/debian/barrett-config-non-realtime.cmake
-      DESTINATION share/barrett
-    )
-  else()
-    message(STATUS "Using standard barrett-config-realtime.cmake for Debian installation.")
-    install(FILES ${PROJECT_SOURCE_DIR}/cmake/debian/barrett-config-realtime.cmake
-      DESTINATION share/barrett
-    )
-  endif()
+	if (NON_REALTIME)
+		message(STATUS "Using standard barrett-config-non-realtime.cmake for Debian installation.")
+		install(FILES ${PROJECT_SOURCE_DIR}/cmake/debian/barrett-config-non-realtime.cmake
+			DESTINATION share/barrett
+		)
+	else()
+		message(STATUS "Using standard barrett-config-realtime.cmake for Debian installation.")
+		install(FILES ${PROJECT_SOURCE_DIR}/cmake/debian/barrett-config-realtime.cmake
+			DESTINATION share/barrett
+		)
+	endif()
 
 	message(STATUS "Temporarily installing configuration files.")
 	install(DIRECTORY ${PROJECT_SOURCE_DIR}/config/
