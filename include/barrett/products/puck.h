@@ -165,8 +165,8 @@ public:
 	static const int SET_MASK = 0x80;
 	static const int PROPERTY_MASK = 0x7f;
 
-	static const double WAKE_UP_TIME = 1.0;  // seconds
-	static const double TURN_OFF_TIME = 0.01;  // seconds
+	static constexpr double WAKE_UP_TIME = 1.0;  // seconds
+	static constexpr double TURN_OFF_TIME = 0.01;  // seconds
 
 	struct StandardParser {
 		static int busId(int id, int propId);
