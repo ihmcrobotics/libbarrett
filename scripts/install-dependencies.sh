@@ -11,11 +11,12 @@
 
 if [ "$DISTRIB_RELEASE" == "18.04" ]; then
 
-	sudo apt-get install build-essential python-dev python-argparse git cmake
-	sudo apt-get install libgsl0-dev libncurses5-dev pkg-config 
+	sudo apt-get install -y build-essential python-dev python-argparse git cmake
+	sudo apt-get install -y libgsl0-dev libncurses5-dev pkg-config 
 
 	# Use GCC 4.8  
-	sudo apt-get update; sudo apt-get install gcc-4.8 g++-4.8
+	sudo apt-get update; 
+	sudo apt-get install -y gcc-4.8 g++-4.8
 	sudo update-alternatives --remove-all gcc 
 	sudo update-alternatives --remove-all g++
 	sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 20
