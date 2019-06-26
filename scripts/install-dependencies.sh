@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # This script installs the following dependencies:
 #
-# GCC 6
+# GCC 7
 # Libconfig-Patched
 # Boost 1.58.0
 # Eigen 3.2.10
@@ -12,17 +12,7 @@
 if [ "$DISTRIB_RELEASE" == "18.04" ]; then
 
 	sudo apt-get install -y build-essential python-dev python-argparse git cmake
-	sudo apt-get install -y libgsl0-dev libncurses5-dev pkg-config 
-
-	# Use GCC 6  
-	sudo apt-get update; 
-	sudo apt-get install -y gcc-6 g++-6
-	sudo update-alternatives --remove-all gcc 
-	sudo update-alternatives --remove-all g++
-	sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 20
-	sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 20
-	sudo update-alternatives --config gcc
-	sudo update-alternatives --config g++
+	sudo apt-get install -y libgsl0-dev libncurses5-dev pkg-config
 
 	#Download and Install patched Libconfig 1.4.5
 	cd ~/Downloads
