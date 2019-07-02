@@ -388,7 +388,7 @@ systems::Wam<3>* ProductManager::getWam3(bool waitForShiftActivate, const char* 
 		try {
 			wam3 = new systems::Wam<3>(getExecutionManager(), wam3Pucks, getSafetyModule(), getConfig().lookup(configPath));
 		} catch (libconfig::FileIOException e) {
-			printf("\n>>> CONFIG FILE ERROR in %s: could not find \"%s\"\n\n", configPath, e.getPath());
+			printf("\n>>> CONFIG FILE ERROR in %s: I/O while reading file\n\n", configPath);
 			printf("Check your configuration file directory to ensure that the proper configuration files are installed.\n");
 			printf("This error usually means that a configuration file is corrupted.\n");
 			printf("Note that if a ~/.barrett/ directory exists, this location will override the standard /etc/barrett/.\n\n");
@@ -437,7 +437,7 @@ systems::Wam<4>* ProductManager::getWam4(bool waitForShiftActivate, const char* 
 		try {
 			wam4 = new systems::Wam<4>(getExecutionManager(), wam4Pucks, getSafetyModule(), getConfig().lookup(configPath));
 		} catch (libconfig::FileIOException e) {
-			printf("\n>>> CONFIG FILE ERROR in %s: could not find \"%s\"\n\n", configPath, e.getPath());
+			printf("\n>>> CONFIG FILE ERROR in %s: I/O while reading file\n\n", configPath);
 			printf("Check your configuration file directory to ensure that the proper configuration files are installed.\n");
 			printf("This error usually means that a configuration file is corrupted.\n");
 			printf("Note that if a ~/.barrett/ directory exists, this location will override the standard /etc/barrett/.\n\n");
@@ -487,7 +487,7 @@ systems::Wam<7>* ProductManager::getWam7(bool waitForShiftActivate, const char* 
 		try {
 			wam7 = new systems::Wam<7>(getExecutionManager(), wam7Pucks, getSafetyModule(), getConfig().lookup(configPath));
 		} catch (libconfig::FileIOException e) {
-			printf("\n>>> CONFIG FILE ERROR in %s: could not find \"%s\"\n\n", configPath, e.getPath());
+			printf("\n>>> CONFIG FILE ERROR in %s: I/O while reading file\n\n", configPath);
 			printf("Check your configuration file directory to ensure that the proper configuration files are installed.\n");
 			printf("This error usually means that a configuration file is corrupted.\n");
 			printf("Note that if a ~/.barrett/ directory exists, this location will override the standard /etc/barrett/.\n\n");
