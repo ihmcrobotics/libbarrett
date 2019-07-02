@@ -128,7 +128,7 @@ ProductManager::ProductManager(const char* configFile, bus::CommunicationsBus* _
 	} catch (libconfig::ParseException pe) {
 		printf("\n>>> CONFIG FILE ERROR on line %d of %s: \"%s\"\n\n", pe.getLine(), configFile, pe.getError());
 		printf("Check your configuration file directory to ensure that the proper configuration files are installed.\n");
-		printf("This error usually means that a configuration file is missing.\n");
+		printf("This error usually means that a configuration file is corrupted or missing.\n");
 		printf("Note that if a ~/.barrett/ directory exists, this location will override the standard /etc/barrett/.\n\n");
 
 		ret = chdir(origWd);  // Ignore ret value
