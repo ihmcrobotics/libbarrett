@@ -688,7 +688,7 @@ int main(int argc, char** argv) {
 	// For clean stack traces
 	ProductManager pm;
 	if (pm.foundWam7Gimbals()){  //gimbals error message
-		printf("\nGimbals do not have autotensioners. Please re-run with the 4-DOF hand attached\n\n");
+		printf("\nGimbals do not have autotensioners. Please re-run with a different outer link\n\n");
 		return 0;
 	}
 	barrett::installExceptionHandler();
@@ -700,5 +700,4 @@ int main(int argc, char** argv) {
 	} else if (pm.foundWam7()) {
 		return wam_main<7>(argc, argv, pm, *pm.getWam7(true, NULL));
 	}
-
 }
