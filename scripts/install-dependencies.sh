@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # This script installs the following dependencies:
 #
-# GCC 7
+# GCC 7.4
 # Libconfig-Patched
-# Boost 1.58.0
+# Boost 1.65.1
 # Eigen 3.2.10
 
 # Import the Linux Version Number Variables
