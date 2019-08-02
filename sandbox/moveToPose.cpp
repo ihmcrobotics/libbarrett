@@ -108,14 +108,11 @@ int wam_main(int argc, char** argv, ProductManager& pm, systems::Wam<DOF>& wam) 
     switch (line[0]) {
     case 'p':
       p3 = wam.getToolPose();
-      std::cout << "Current pose is: [ ";
-      for (int i = 0; i < 3; i++) {
-        std::cout << boost::get<0>(p3)[i] << " ";
-      }
-      std::cout << "], [ " << boost::get<1>(p3).w();
+      std::cout << "Current pose is: " << boost::get<0>(p3);
+      std::cout << ", [" << boost::get<1>(p3).w();
       std::cout << ", " << boost::get<1>(p3).vec()[0] << "i";
       std::cout << ", " << boost::get<1>(p3).vec()[1] << "j";
-      std::cout << ", " << boost::get<1>(p3).vec()[2] << "k ]";
+      std::cout << ", " << boost::get<1>(p3).vec()[2] << "k]";
       std::cout << std::endl;
       break;
 
