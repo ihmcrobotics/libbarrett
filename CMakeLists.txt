@@ -20,7 +20,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules/")
 
 ### Options
 option(BUILD_SHARED_LIBS "Set to OFF to build static libraries" ON)
-option(NON_REALTIME "Set to ON to avoid building code that depends on a real-time operating system" OFF)
+option(NON_REALTIME "Set to ON to avoid building code that depends on a real-time operating system" ON)
 option(OPTIMIZE_FOR_PROCESSOR "Set to ON to build binaries that are optimized for this specific computer and can't be copied to other machines" OFF)
 option(WITH_PYTHON "Set to ON to build Python bindings for libbarrett" ON)
 option(INSTALL_EXAMPLES "Set to ON to copy libbarrett example programs to the current user's home folder when the library is installed" ON)
@@ -77,9 +77,9 @@ set(exported_include_dirs ${exported_include_dirs} ${CMAKE_INSTALL_PREFIX}/inclu
 set(exported_link_dirs ${exported_link_dirs} ${CMAKE_INSTALL_PREFIX}/lib)
 
 
-## Xenomai
+## REALTIME
 if (NON_REALTIME)
-	message(STATUS "NON_REALTIME: Not using Xenomai")
+	message(STATUS "NON_REALTIME: Not using REALTIME")
 else()
 	find_package(Xenomai REQUIRED)
 	include_directories(${XENOMAI_INCLUDE_DIR})
