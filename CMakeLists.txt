@@ -20,7 +20,6 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules/")
 
 ### Options
 option(BUILD_SHARED_LIBS "Set to OFF to build static libraries" ON)
-option(NON_REALTIME "Set to ON to avoid building code that depends on a real-time operating system" ON)
 option(OPTIMIZE_FOR_PROCESSOR "Set to ON to build binaries that are optimized for this specific computer and can't be copied to other machines" OFF)
 option(WITH_PYTHON "Set to ON to build Python bindings for libbarrett" ON)
 option(INSTALL_EXAMPLES "Set to ON to copy libbarrett example programs to the current user's home folder when the library is installed" ON)
@@ -75,20 +74,6 @@ include_directories("${PROJECT_SOURCE_DIR}/include")
 include_directories("${PROJECT_BINARY_DIR}/include")
 set(exported_include_dirs ${exported_include_dirs} ${CMAKE_INSTALL_PREFIX}/include)
 set(exported_link_dirs ${exported_link_dirs} ${CMAKE_INSTALL_PREFIX}/lib)
-
-
-## REALTIME
-if (NON_REALTIME)
-	message(STATUS "NON_REALTIME: Not using REALTIME")
-else()
-	find_package(Xenomai REQUIRED)
-	include_directories(${XENOMAI_INCLUDE_DIR})
-	add_definitions(${XENOMAI_DEFINITIONS})
-	
-	set(exported_include_dirs ${exported_include_dirs} ${XENOMAI_INCLUDE_DIR})
-	set(exported_definitions ${exported_definitions} ${XENOMAI_DEFINITIONS})
-endif()
-
 
 ## GSL
 find_package(GSL REQUIRED)
@@ -153,18 +138,10 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/barrett-config.cmake.in ${PROJECT_SOU
 	ESCAPE_QUOTES @ONLY
 )
 if (CONFIG_DEBIAN)	
-	if (NON_REALTIME)
-		message(STATUS "Using standard barrett-config-non-realtime.cmake for Debian installation.")
-		install(FILES ${PROJECT_SOURCE_DIR}/cmake/debian/barrett-config-non-realtime.cmake
+	message(STATUS "Using standard barrett-config-non-realtime.cmake for Debian installation.")
+	install(FILES ${PROJECT_SOURCE_DIR}/cmake/debian/barrett-config-non-realtime.cmake
 			DESTINATION share/barrett
 		)
-	else()
-		message(STATUS "Using standard barrett-config-realtime.cmake for Debian installation.")
-		install(FILES ${PROJECT_SOURCE_DIR}/cmake/debian/barrett-config-realtime.cmake
-			DESTINATION share/barrett
-		)
-	endif()
-
 	message(STATUS "Temporarily installing configuration files.")
 	install(DIRECTORY ${PROJECT_SOURCE_DIR}/config/
     	DESTINATION share/barrett/config
@@ -302,9 +279,6 @@ if (CONFIG_PACKAGE)
 	set(CPACK_DEBIAN_PACKAGE_NAME "libbarrett-dev")
 	set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_CONTACT}")
 	set(CPACK_DEBIAN_PACKAGE_DEPENDS "libconfig-barrett (>=1.4.5), libboost-thread-dev (>= 1.45.0), libboost-python-dev (>=1.45.0), libgsl0-dev (>=1.14), libncurses5-dev, python-dev (>=2.7)")
-	if (NOT NON_REALTIME)
-		set(CPACK_DEBIAN_PACKAGE_DEPENDS "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libxenomai-dev (>= 2.5.5.2)")
-	endif()
 	set(CPACK_DEBIAN_PACKAGE_DESCRIPTION_SUMMARY "${CPACK_PACKAGE_DESCRIPTION_SUMMARY}")
 	set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "${CPACK_PACKAGE_DESCRIPTION}")
 	set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
