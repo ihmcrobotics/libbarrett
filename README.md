@@ -1,6 +1,7 @@
 # Libbarrett 2.0
 > Libbarrett is a real-time controls library written in C++ that runs Barrett
 Technology products (WAM and BarrettHand)
+
 ` This version of Libbarrett compiles at non-real-time kernel (standard Ubuntu 18.04 kernel) and should be used when hard real-time guarantee is not important for your application.`
 
 ### Pre-Requisites
