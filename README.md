@@ -1,4 +1,4 @@
-# Libbarrett 2.0
+# Libbarrett 2.0.0
 > Libbarrett is a real-time controls library written in C++ that runs Barrett
 Technology products (WAM and BarrettHand)
 
