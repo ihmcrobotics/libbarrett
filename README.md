@@ -19,7 +19,7 @@ cd scripts
 ```
 Install the required dependencies:
 ```
-./scripts/install-dependencies.sh
+./install-dependencies.sh
 ```
 
 Setup your hardware for the communication with the CAN bus and reboot your system:
