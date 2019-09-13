@@ -4,22 +4,28 @@ Technology products (WAM and BarrettHand)
 
 ` This version of Libbarrett compiles at non-real-time kernel (standard Ubuntu 18.04 kernel) and should be used when hard real-time guarantee is not important for your application.`
 
-### Pre-Requisites
-To install the required dependencies run:
-```
-./scripts/install-dependencies.sh
-```
-
-To setup your hardware for the CAN communication run:
-```
-./scripts/setup-hardware.sh
-```
 
 ### Download package
 ```
 cd ~/
 git clone https://git.barrett.com/software/libbarrett.git
 cd libbarrett
+```
+
+### Install depedencies
+Navigate to the scripts folder:
+```
+cd scripts
+```
+Install the required dependencies:
+```
+./scripts/install-dependencies.sh
+```
+
+Setup your hardware for the communication with the CAN bus and reboot your system:
+```
+./setup-hardware.sh
+sudo reboot
 ```
 
 ### Compile Libbarrett in non-realtime fashion
