@@ -23,9 +23,9 @@ if [ "$DISTRIB_RELEASE" == "18.04" ]; then
 
 	#Download and install Eigen 3.2.10
 	cd ~/Downloads
-	wget http://bitbucket.org/eigen/eigen/get/3.2.10.tar.bz2
-	tar --bzip2 -xf 3.2.10.tar.bz2
-	cd eigen-eigen-b9cd8366d4e8/
+	wget https://gitlab.com/libeigen/eigen/-/archive/3.2.10/eigen-3.2.10.tar.bz2
+	tar --bzip2 -xf eigen-3.2.10.tar.bz2
+	cd eigen-3.2.10/
 	mkdir -p build && cd build
 	cmake ../ && make && sudo make install
 
