@@ -115,7 +115,7 @@ set(exported_link_dirs ${exported_link_dirs} ${Boost_LIBRARY_DIRS})
 
 ## Python
 if (WITH_PYTHON)
-	find_package(PythonLibs REQUIRED)
+	find_package(PythonLibs 2.7 REQUIRED)
 	include_directories(${PYTHON_INCLUDE_PATH})
 endif()
 
