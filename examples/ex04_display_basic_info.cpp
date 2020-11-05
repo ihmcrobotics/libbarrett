@@ -212,7 +212,8 @@ int wam_main(int argc, char** argv, ProductManager& pm, systems::Wam<DOF>& wam) 
 		// Hand
 		if (hand != NULL) {
 			line = handY;
-			hand->update();  // Update all sensors
+			//hand->update();  // Update all sensors, includes Hand::S_TACT_FULL, if installed
+			hand->update(Hand::S_POSITION | Hand::S_FINGERTIP_TORQUE | Hand::S_TACT_TOP10);  // Update these sensors
 
 			hjp = math::saturate(hand->getInnerLinkPosition(), 9.999);
 			mvprintw(line++,handX, "[%6.3f, %6.3f, %6.3f, %6.3f]",
@@ -233,7 +234,7 @@ int wam_main(int argc, char** argv, ProductManager& pm, systems::Wam<DOF>& wam) 
 			if (hand->hasTactSensors()) {
 				for (size_t i = 0; i < tps.size(); ++i) {
 					graphPressures(stdscr, line, i * TACT_BOARD_STRIDE,
-							tps[i]->getFullData());
+							tps[i]->getTactileData());
 				}
 			}
 		}

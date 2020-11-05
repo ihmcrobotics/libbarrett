@@ -82,8 +82,8 @@ public:
 /**
  *
  */
-	const v_type& getFullData() const { return full; }
-	const v_type& getTop10Data() const { return top10; }
+	const v_type& getTactileData() const { return tactile; }
+	//const v_type& getTop10Data() const { return top10; }
 /**
  *
  */
@@ -123,8 +123,8 @@ protected:
 	int propId;
 
 	enum TactState tact;
-	v_type full;
-	v_type top10;
+	v_type tactile;
+	//v_type top10;
 	
 
 	static const size_t NUM_FULL_MESSAGES = 5;

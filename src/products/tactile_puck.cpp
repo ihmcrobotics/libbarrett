@@ -85,7 +85,7 @@ void TactilePuck::requestFull()
 void TactilePuck::receiveFull(bool realtime)
 {
 	for (size_t i = 0 ; i < NUM_FULL_MESSAGES; ++i) {
-		int ret = Puck::receiveGetPropertyReply<FullTactParser>(*bus, id, propId, &full, true, realtime);
+		int ret = Puck::receiveGetPropertyReply<FullTactParser>(*bus, id, propId, &tactile, true, realtime);
 		if (ret != 0) {
 			const size_t NFM = NUM_FULL_MESSAGES;  // Reserve storage for static const.
 			(logMessage("TactilePuck::%s(): Failed to receive reply. "
@@ -111,11 +111,12 @@ void TactilePuck::requestTop10()
 }
 void TactilePuck::receiveTop10(bool realtime)
 {
-	ret = Puck::receiveGetPropertyReply<Top10TactParser>(*bus, id, propId, &top10, true, realtime);
+	int ret = Puck::receiveGetPropertyReply<Top10TactParser>(*bus, id, propId, &tactile, true, realtime);
 	if (ret != 0) {
 		(logMessage("TactilePuck::%s(): Failed to receive reply. "
 				"Puck::receiveGetPropertyReply() returned error %d while receiving TOP10 TACT reply from ID=%d.")
 				% __func__ % ret % id).raise<std::runtime_error>();
+	}
 }
 
 
@@ -158,7 +159,7 @@ int TactilePuck::Top10TactParser::parse(int id, int propId, result_type* result,
 	// The pressures are, respectively: 6, 4, 5, 14, 7, 7, 11, 6, 9, 3 (N/cm2)
 	
 	// I don't know how "data" is aligned, so align the data properly here...
-	uint64_t dat; // No initialization required
+	uint64_t dat = 0; // No initialization required, but compiler complains otherwise
 	for(size_t i = 0; i < sizeof(uint64_t); i++){
 		dat <<= 8;
 		dat |= data[i];
@@ -168,14 +169,15 @@ int TactilePuck::Top10TactParser::parse(int id, int propId, result_type* result,
 	uint8_t *byte = (uint8_t*)&dat + 4; // Pointer to the AAAABBBB byte of dat
 	
 	// Now rotate through the map and shift out each non-zero value from the packed data
+	// Note: result is a math::Vector[24]
 	for(size_t i = 0; i < NUM_SENSORS; i++){
 		if(map & 1){
 			(*result)[i] = (*byte & 0xF0) >> 4; // 4-bit N/cm2 (0-15)
-			map >>= 1;
 			dat <<= 4;
 		}else{
 			(*result)[i] = 0; // No data returned for this cell, set to zero
 		}
+		map >>= 1;
 	}
 
     return 0;
