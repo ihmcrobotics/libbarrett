@@ -213,7 +213,7 @@ int wam_main(int argc, char** argv, ProductManager& pm, systems::Wam<DOF>& wam) 
 		if (hand != NULL) {
 			line = handY;
 			//hand->update();  // Update all sensors, includes Hand::S_TACT_FULL, if installed
-			hand->update(Hand::S_POSITION | Hand::S_FINGERTIP_TORQUE | Hand::S_TACT_TOP10);  // Update these sensors
+			hand->update(Hand::S_POSITION + Hand::S_FINGERTIP_TORQUE + Hand::S_TACT_TOP10);  // Update these sensors
 
 			hjp = math::saturate(hand->getInnerLinkPosition(), 9.999);
 			mvprintw(line++,handX, "[%6.3f, %6.3f, %6.3f, %6.3f]",
