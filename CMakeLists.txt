@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 2.6)
 
 project(libbarrett)
 set(libbarrett_VERSION_MAJOR 1)
-set(libbarrett_VERSION_MINOR 2)
-set(libbarrett_VERSION_PATCH 4)
+set(libbarrett_VERSION_MINOR 3)
+set(libbarrett_VERSION_PATCH 0)
 set(libbarrett_VERSION "${libbarrett_VERSION_MAJOR}.${libbarrett_VERSION_MINOR}.${libbarrett_VERSION_PATCH}")
 set(libbarrett_SOVERSION "${libbarrett_VERSION_MAJOR}.${libbarrett_VERSION_MINOR}")
 
@@ -115,7 +115,7 @@ set(exported_link_dirs ${exported_link_dirs} ${Boost_LIBRARY_DIRS})
 
 ## Python
 if (WITH_PYTHON)
-	find_package(PythonLibs REQUIRED)
+	find_package(PythonLibs 2.7 REQUIRED)
 	include_directories(${PYTHON_INCLUDE_PATH})
 endif()
 
