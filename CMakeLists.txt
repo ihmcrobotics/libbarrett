@@ -79,7 +79,7 @@ set(exported_link_dirs ${exported_link_dirs} ${CMAKE_INSTALL_PREFIX}/lib)
 
 ## Xenomai
 if (NON_REALTIME)
-	message(STATUS "NON_REALTIME: Not using Xeonmai")
+	message(STATUS "NON_REALTIME: Not using Xenomai")
 else()
 	find_package(Xenomai REQUIRED)
 	include_directories(${XENOMAI_INCLUDE_DIR})
@@ -120,7 +120,7 @@ if (WITH_PYTHON)
 endif()
 
 
-## Eigen2
+## Eigen3
 find_package(Eigen3 REQUIRED)
 include_directories(${Eigen_INCLUDE_DIRS})
 set(exported_include_dirs ${exported_include_dirs} ${Eigen_INCLUDE_DIRS})
@@ -153,10 +153,18 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/barrett-config.cmake.in ${PROJECT_SOU
 	ESCAPE_QUOTES @ONLY
 )
 if (CONFIG_DEBIAN)	
-	message(STATUS "Using standard barrett-config.cmake for Debian installation.")
-	install(FILES ${PROJECT_SOURCE_DIR}/cmake/debian/barrett-config.cmake
-		DESTINATION share/barrett
-	)
+	if (NON_REALTIME)
+		message(STATUS "Using standard barrett-config-non-realtime.cmake for Debian installation.")
+		install(FILES ${PROJECT_SOURCE_DIR}/cmake/debian/barrett-config-non-realtime.cmake
+			DESTINATION share/barrett
+		)
+	else()
+		message(STATUS "Using standard barrett-config-realtime.cmake for Debian installation.")
+		install(FILES ${PROJECT_SOURCE_DIR}/cmake/debian/barrett-config-realtime.cmake
+			DESTINATION share/barrett
+		)
+	endif()
+
 	message(STATUS "Temporarily installing configuration files.")
 	install(DIRECTORY ${PROJECT_SOURCE_DIR}/config/
     	DESTINATION share/barrett/config
