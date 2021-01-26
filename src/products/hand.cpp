@@ -208,7 +208,12 @@ void Hand::update(unsigned int sensors, bool realtime)
 		group.sendGetPropertyRequest(group.getPropertyId(Puck::SG));
 	}
 	if (hasTactSensors()  &&  sensors & S_TACT_FULL) {
+		// This should be TactilePuck::requestFull()
 		group.setProperty(Puck::TACT, TactilePuck::FULL_FORMAT);
+	}
+	if (hasTactSensors()  &&  sensors & S_TACT_TOP10) {
+		// This should be TactilePuck::requestTop10()
+		group.setProperty(Puck::TACT, TactilePuck::TOP10_FORMAT);
 	}
 
 
@@ -243,6 +248,11 @@ void Hand::update(unsigned int sensors, bool realtime)
 	if (hasTactSensors()  &&  sensors & S_TACT_FULL) {
 		for (size_t i = 0; i < tactilePucks.size(); ++i) {
 			tactilePucks[i]->receiveFull(realtime);
+		}
+	}
+	if (hasTactSensors()  &&  sensors & S_TACT_TOP10) {
+		for (size_t i = 0; i < tactilePucks.size(); ++i) {
+			tactilePucks[i]->receiveTop10(realtime);
 		}
 	}
 }
