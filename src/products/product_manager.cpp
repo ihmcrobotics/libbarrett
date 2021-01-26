@@ -102,9 +102,11 @@ ProductManager::ProductManager(const char* configFile, bus::CommunicationsBus* _
 		throw std::runtime_error("Out of memory.");
 	}
 
-	// these functions require copies of the string because they sometimes modify their argument
-	char* configDir = dirname(cf1);
-	char* configBase = basename(cf2);
+	// These functions require copies of the string because they sometimes modify their argument.
+	// Also, dirname() and basename() may EITHER perform a malloc() OR just return a pointer to a substring.
+	// Since we free() cf1 and cf2 later, we force a malloc() with strdup().
+	configDir = strdup(dirname(cf1));
+	configBase = strdup(basename(cf2));
 
 	// make @include paths in configFile relative to the containing directory
 	ret = chdir(configDir);

@@ -18,7 +18,7 @@ namespace math {
 template<size_t DOF>
 Kinematics<DOF>::Kinematics(const libconfig::Setting& setting)
 {
-	if (bt_kinematics_create(&impl, setting.getCSetting(), DOF)) {
+	if (bt_kinematics_create(&impl, (config_setting_t *)&setting /*getCSetting()*/, DOF)) {
 		throw(std::runtime_error("(math::Kinematics::Kinematics): Couldn't initialize Kinematics struct."));
 	}
 }

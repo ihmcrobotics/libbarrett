@@ -18,7 +18,7 @@ namespace math {
 template<size_t DOF>
 Dynamics<DOF>::Dynamics(const libconfig::Setting& setting)
 {
-	if (bt_dynamics_create(&impl, setting.getCSetting(), DOF)) {
+	if (bt_dynamics_create(&impl, (config_setting_t *)&setting /*getCSetting()*/, DOF)) {
 		throw(std::runtime_error("(math::Dynamics::Dynamics): Couldn't initialize Dynamics struct."));
 	}
 }
