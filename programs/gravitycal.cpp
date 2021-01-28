@@ -491,8 +491,8 @@ int wam_main(int argc, char** argv, ProductManager& pm, systems::Wam<DOF>& wam) 
 		 * in torques[] and positions[] */
 
 		libconfig::Setting& setting = pm.getConfig().lookup(pm.getWamDefaultConfigPath());
-		bt_kinematics_create(&kin, (config_setting_t *)&setting["kinematics"] /* wamSetting["kinematics"].getCSetting() */, n);
-		bt_calgrav_create(&grav, (config_setting_t *)&setting["gravity_compensation"] /* wamSetting["gravity_compensation"].getCSetting() */, n);
+		bt_kinematics_create(&kin, setting["kinematics"].getCSetting(), n);
+		bt_calgrav_create(&grav, setting["gravity_compensation"].getCSetting(), n);
 
 		/* Make the nLL matrix */
 		nLL = gsl_matrix_calloc(3 * num_poses, 3 + 2 * num_poses);

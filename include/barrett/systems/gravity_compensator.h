@@ -60,7 +60,7 @@ public:
 			const std::string& sysName = "GravityCompensator") :
 		System(sysName), KinematicsInput<DOF>(this), SingleOutput<jt_type>(this), impl(NULL), data()
 	{
-		bt_calgrav_create(&impl, (config_setting_t *)&setting /*getCSetting()*/, DOF);
+		bt_calgrav_create(&impl, setting.getCSetting(), DOF);
 	}
 
 	bool setGravity(double new_grav) {
