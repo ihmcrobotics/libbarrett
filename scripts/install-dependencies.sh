@@ -1,35 +1,22 @@
 #!/usr/bin/env bash
-# This script installs the following dependencies:
-#
-# GCC 7.4
-# Libconfig-Patched
-# Boost 1.65.1
-# Eigen 3.2.10
+# This script installs libbarrett dependencies
 
 # Import the Linux Version Number Variables
 . /etc/lsb-release
 
-if [ "$DISTRIB_RELEASE" == "18.04" ]; then
+if [ "$DISTRIB_RELEASE" == "20.04" ]; then
 
-	sudo apt-get install -y build-essential python-dev python-argparse git cmake
-	sudo apt-get install -y libgsl0-dev libncurses5-dev pkg-config libboost-all-dev
+	sudo apt-get install -y git cmake clang net-tools can-utils
+	sudo apt-get install -y libgsl-dev libeigen3-dev libncurses-dev pkg-config libboost-all-dev
 
 	#Download and Install patched Libconfig 1.4.5
 	cd ~/Downloads
 	wget http://web.barrett.com/support/WAM_Installer/libconfig-1.4.5-PATCHED.tar.gz
 	tar -xf libconfig-1.4.5-PATCHED.tar.gz
 	cd libconfig-1.4.5
-	sudo ./configure && sudo make && sudo make install
-
-	#Download and install Eigen 3.2.10
-	cd ~/Downloads
-	wget https://gitlab.com/libeigen/eigen/-/archive/3.2.10/eigen-3.2.10.tar.bz2
-	tar --bzip2 -xf eigen-3.2.10.tar.bz2
-	cd eigen-3.2.10/
-	mkdir -p build && cd build
-	cmake ../ && make && sudo make install
-
+	./configure && make && sudo make install
+	sudo ldconfig
 else
-	echo "This script must run under Ubuntu 18.04"
+	echo "This script must run under Ubuntu 20.04"
 fi
 

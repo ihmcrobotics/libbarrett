@@ -199,26 +199,10 @@ void Hand::update(unsigned int sensors, bool realtime)
 		ul.lock();
 	}
 
-
 	// Send requests
 	if (sensors & S_POSITION) {
 		group.sendGetPropertyRequest(group.getPropertyId(Puck::P));
-	}
-	if (hasFingertipTorqueSensors()  &&  sensors & S_FINGERTIP_TORQUE) {
-		group.sendGetPropertyRequest(group.getPropertyId(Puck::SG));
-	}
-	if (hasTactSensors()  &&  sensors & S_TACT_FULL) {
-		// This should be TactilePuck::requestFull()
-		group.setProperty(Puck::TACT, TactilePuck::FULL_FORMAT);
-	}
-	if (hasTactSensors()  &&  sensors & S_TACT_TOP10) {
-		// This should be TactilePuck::requestTop10()
-		group.setProperty(Puck::TACT, TactilePuck::TOP10_FORMAT);
-	}
 
-
-	// Receive replies
-	if (sensors & S_POSITION) {
 		group.receiveGetPropertyReply<MotorPuck::CombinedPositionParser<int> >(group.getPropertyId(Puck::P), encoderTmp.data(), realtime);
 
 		for (size_t i = 0; i < DOF; ++i) {
@@ -242,19 +226,46 @@ void Hand::update(unsigned int sensors, bool realtime)
 		// For the spread
 		innerJp[SPREAD_INDEX] = outerJp[SPREAD_INDEX] = motorPucks[SPREAD_INDEX].counts2rad(primaryEncoder[SPREAD_INDEX]) / SPREAD_RATIO;
 	}
+	
 	if (hasFingertipTorqueSensors()  &&  sensors & S_FINGERTIP_TORQUE) {
+		group.sendGetPropertyRequest(group.getPropertyId(Puck::SG));
+
 		group.receiveGetPropertyReply<Puck::StandardParser>(group.getPropertyId(Puck::SG), ftt.data(), realtime);
 	}
+	
 	if (hasTactSensors()  &&  sensors & S_TACT_FULL) {
+		// This should be TactilePuck::requestFull()
+		group.setProperty(Puck::TACT, TactilePuck::FULL_FORMAT);
+
 		for (size_t i = 0; i < tactilePucks.size(); ++i) {
 			tactilePucks[i]->receiveFull(realtime);
 		}
 	}
+
 	if (hasTactSensors()  &&  sensors & S_TACT_TOP10) {
+		// This should be TactilePuck::requestTop10()
+		group.setProperty(Puck::TACT, TactilePuck::TOP10_FORMAT);
+
 		for (size_t i = 0; i < tactilePucks.size(); ++i) {
 			tactilePucks[i]->receiveTop10(realtime);
 		}
 	}
+
+/*
+	// Receive replies
+	if (sensors & S_POSITION) {
+		
+	}
+	if (hasFingertipTorqueSensors()  &&  sensors & S_FINGERTIP_TORQUE) {
+		
+	}
+	if (hasTactSensors()  &&  sensors & S_TACT_FULL) {
+		
+	}
+	if (hasTactSensors()  &&  sensors & S_TACT_TOP10) {
+		
+	}
+*/
 }
 
 /** */
