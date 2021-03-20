@@ -291,7 +291,9 @@ void LowLevelWam<DOF>::update()
 	double now = highResolutionSystemTime();
 
 	if (noJointEncoders) {
-		group.getProperty<MotorPuck::MotorPositionParser<double> >(Puck::P, pp.data(), true);
+		// Changing realtime to false. If this thread never yields, there is a chance the CAN request will never go out.
+		//group.getProperty<MotorPuck::MotorPositionParser<double> >(Puck::P, pp.data(), true);
+		group.getProperty<MotorPuck::MotorPositionParser<double> >(Puck::P, pp.data(), false);
 		jp_motorEncoder = p2jp * pp;  // Convert from Puck positions to joint positions
 		jp_best = jp_motorEncoder;
 	} else {
@@ -303,7 +305,7 @@ void LowLevelWam<DOF>::update()
 		group.getProperty<MotorPuck::CombinedPositionParser<double> >(
 				Puck::P,
 				reinterpret_cast<MotorPuck::CombinedPositionParser<double>::result_type*>(pp_jep.data()),
-				true);
+				false);
 		jp_motorEncoder = p2jp * pp_jep.col(0);
 
 		for (size_t i = 0; i < DOF; ++i) {

@@ -99,11 +99,11 @@ int BusManager::receive(int expectedBusId, unsigned char* data, size_t& len, boo
 			return 2;
 		}
 
-		if (!realtime) {
-			int lc = m.fullUnlock();
-			btsleepRT(0.0001);			// Yield this thread, give CAN thread time to process data
-			m.relock(lc);
-		}
+		//if (!realtime) {
+		//	int lc = m.fullUnlock();
+		//	btsleepRT(0.0001);			// Yield this thread, give CAN thread time to process data
+		//	m.relock(lc);
+		//}
 	}
 }
 

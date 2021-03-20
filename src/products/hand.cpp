@@ -110,9 +110,11 @@ void Hand::initialize() const
 	for (size_t i = 0; i < DOF-1; ++i) {
 		pucks[i]->setProperty(Puck::CMD, CMD_HI);
 	}
+	btsleep(1.0); // Pucks take at least 0.5 seconds to respond to CAN messages again after cmdHI
 	waitUntilDoneMoving();
 
 	pucks[SPREAD_INDEX]->setProperty(Puck::CMD, CMD_HI);
+	btsleep(1.0);
 	waitUntilDoneMoving();
 }
 /** doneMoving Method */
