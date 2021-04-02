@@ -339,6 +339,7 @@ void LowLevelWam<DOF>::setTorques(const jt_type& jt)
 	pt = j2pt * jt;  // Convert from joint torques to Puck torques
 
 	size_t i = 0;
+	BARRETT_SCOPED_LOCK(bus.getMutex());
 	for (size_t g = 0; g < torqueGroups.size(); ++g) {
 		MotorPuck::sendPackedTorques(bus, torqueGroups[g]->getId(), torquePropId, pt.data()+i, std::min(PUCKS_PER_TORQUE_GROUP, DOF-i));
 		i += PUCKS_PER_TORQUE_GROUP;

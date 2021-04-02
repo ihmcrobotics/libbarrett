@@ -3,10 +3,18 @@
 # Import the Linux Version Number Variables
 . /etc/lsb-release
 
-if [ "$DISTRIB_RELEASE" == "18.04" ]; then
+if [ "$DISTRIB_RELEASE" = "20.04" ]; then
 	sudo cp reset_can_non_xenomai.sh /bin
 	sudo cp 60-can.rules /etc/udev/rules.d
 	sudo udevadm control --reload-rules && udevadm trigger
+	mydir=$(pwd)
+	cd
+	wget https://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-8.11.0.tar.gz
+	tar xf peak-linux-driver-8.11.0.tar.gz
+	cd peak-linux-driver-8.11.0
+	make -C driver netdev
+	sudo make -C driver install
+	cd $mydir
 else
-	echo "This script must run under Ubuntu 18.04"
+	echo "This script must run under Ubuntu 20.04"
 fi

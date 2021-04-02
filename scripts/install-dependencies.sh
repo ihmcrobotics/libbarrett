@@ -4,7 +4,7 @@
 # Import the Linux Version Number Variables
 . /etc/lsb-release
 
-if [ "$DISTRIB_RELEASE" == "20.04" ]; then
+if [ "$DISTRIB_RELEASE" = "20.04" ]; then
 
 	sudo apt-get install -y git cmake clang net-tools can-utils
 	sudo apt-get install -y libgsl-dev libeigen3-dev libncurses-dev pkg-config libboost-all-dev
