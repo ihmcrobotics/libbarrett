@@ -9,7 +9,7 @@ if [ "$DISTRIB_RELEASE" = "20.04" ]; then
 	mydir=$(pwd)
 	cd && wget https://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-8.11.0.tar.gz
 	tar xf peak-linux-driver-8.11.0.tar.gz
-	cd peak-linux-driver-8.11.0 && make -C driver netdev
+	cd peak-linux-driver-8.11.0 && make -j$(nproc) -C driver netdev
 	sudo make -C driver install
 	cd $mydir
 else
