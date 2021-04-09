@@ -20,7 +20,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules/")
 
 ### Options
 option(BUILD_SHARED_LIBS "Set to OFF to build static libraries" ON)
-option(OPTIMIZE_FOR_PROCESSOR "Set to ON to build binaries that are optimized for this specific computer and can't be copied to other machines" OFF)
+option(OPTIMIZE_FOR_PROCESSOR "Set to ON to build binaries that are optimized for this specific computer and can't be copied to other machines" ON)
 option(WITH_PYTHON "Set to ON to build Python bindings for libbarrett" ON)
 option(INSTALL_EXAMPLES "Set to ON to copy libbarrett example programs to the current user's home folder when the library is installed" ON)
 option(INSTALL_SANDBOX "Set to ON to copy libbarrett sandbox programs to the current user's home folder when the library is installed" ON)
@@ -80,26 +80,40 @@ find_package(GSL REQUIRED)
 include_directories(${GSL_INCLUDE_DIRS})
 set(exported_include_dirs ${exported_include_dirs} ${GSL_INCLUDE_DIRS})
 
-
-## Boost
-set(boost_components system thread)
-if (WITH_PYTHON)
-	set(boost_components ${boost_components} python)
-endif()
-find_package(Boost REQUIRED ${boost_components})
-include_directories(${Boost_INCLUDE_DIRS})
-link_directories(${Boost_LIBRARY_DIRS})
-
-set(exported_include_dirs ${exported_include_dirs} ${Boost_INCLUDE_DIRS})
-set(exported_link_dirs ${exported_link_dirs} ${Boost_LIBRARY_DIRS})
-
-
 ## Python
 if (WITH_PYTHON)
 	find_package(PythonLibs REQUIRED)
 	include_directories(${PYTHON_INCLUDE_PATH})
 endif()
 
+## Boost
+set(boost_components system thread)
+if (WITH_PYTHON)
+	# Extract major/minor python version
+	string(REPLACE "." ";" VERSION_LIST ${PYTHONLIBS_VERSION_STRING})
+	list(GET VERSION_LIST 0 PYTHONLIBS_VERSION_MAJOR)                                                                                                                             
+	list(GET VERSION_LIST 1 PYTHONLIBS_VERSION_MINOR)
+	
+	set(boost_components ${boost_components} python${PYTHONLIBS_VERSION_MAJOR}${PYTHONLIBS_VERSION_MINOR})
+endif()
+message(STATUS "Boost components: ${boost_components}")
+find_package(Boost REQUIRED ${boost_components})
+
+## Translate cmake's new "Boost::blah" library naming format to a normal "libboost_blah" name that can be passed to the linker.
+## TODO(bz): Hunt down anyone who makes stupid changes like this and make them suffer.
+set(boost_libraries "")
+foreach (prop ${Boost_LIBRARIES}) 
+	get_target_property(lib ${prop} LOCATION)
+	message(STATUS "The name ${prop} has location: ${lib}.")
+	set(boost_libraries ${boost_libraries} ${lib})
+endforeach(prop)
+set(Boost_LIBRARIES ${boost_libraries})
+
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
+
+set(exported_include_dirs ${exported_include_dirs} ${Boost_INCLUDE_DIRS})
+set(exported_link_dirs ${exported_link_dirs} ${Boost_LIBRARY_DIRS})
 
 ## Eigen3
 find_package(Eigen3 REQUIRED)
