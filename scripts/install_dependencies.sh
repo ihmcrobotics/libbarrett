@@ -25,7 +25,7 @@ if [ "$DISTRIB_RELEASE" = "20.04" ]; then
 	item=`grep menuentry.*lowlatency /boot/grub/grub.cfg -m 1 |cut -d\' -f4`
 	sudo sed -i "s/GRUB_DEFAULT=.*/GRUB_DEFAULT='$menu>$item'/g" grub /etc/default/grub
 	# Workaround for the 'hwmatch' bug in grub2-efi
-	echo 'GRUB_GFXPAYLOAD_LINUX=keep' |sudo tee -a /etc/default/grub > /dev/null
+	grep -qF GRUB_GFXPAYLOAD_LINUX /etc/default/grub || echo 'GRUB_GFXPAYLOAD_LINUX=keep' | sudo tee -a /etc/default/grub > /dev/null
 	sudo update-grub
 
 	# Download and Install patched Libconfig 1.4.5 (supporting C & C++ simultaneously)
