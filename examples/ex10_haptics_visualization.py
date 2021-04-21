@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #
 # Usage:
-#  ex10_haptics_visualization.py <ip address>
+#  python3 ex10_haptics_visualization.py <ip address>
 #
 # Dependencies:
 #  sudo apt install python3 python3-pip freeglut3
@@ -66,7 +66,12 @@ def keyPressed(*args):
     print(args[0])
     # If escape is pressed, kill everything.
     if args[0] == b'\x1b':
-        sys.exit()
+        try:
+            sys.exit()
+        except SystemExit as e:
+            glutLeaveMainLoop()
+        finally:
+            print("Done.")
 
 def drawScene():
     global _angle
@@ -184,7 +189,6 @@ def receiveData():
     except OSError as e:
         err = e.args[0]
         if err == errno.EAGAIN or err == errno.EWOULDBLOCK:
-            #sleep(1)
             #print('No data available')
             return
         else:
@@ -249,4 +253,3 @@ if __name__ == "__main__":
     
     setupSocket()
     main()
-    
