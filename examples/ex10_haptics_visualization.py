@@ -5,7 +5,7 @@
 #
 # Dependencies:
 #  sudo apt install python3 python3-pip freeglut3
-#  python3 -m pip install PyOpenGL PyOpenGL_accelerate
+#  python3 -m pip install PyOpenGL
 
 import time, sys
 from socket import *
