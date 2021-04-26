@@ -10,11 +10,13 @@
 #include <boost/ref.hpp>
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
-#include <boost/filesystem.hpp>
+//#include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
 #include <libconfig.h++>
 #include <Eigen/Core>
+
+#include <sys/stat.h>
 
 #include <barrett/exception.h>
 #include <barrett/units.h>
@@ -36,9 +38,11 @@ char* ctrlMode = NULL;
 bool vcMode = false;
 
 bool validate_args(int argc, char** argv) {
+	struct stat buffer;
+
 	switch (argc) {
 	case 2:
-		if (boost::filesystem::exists(argv[1])) {
+		if (!stat(argv[1], &buffer)) { // If file exists
 			printf("\nTrajectory to be played in current control mode: %s\n\n",
 					argv[1]);
 			return true;
@@ -51,12 +55,12 @@ bool validate_args(int argc, char** argv) {
 		}
 	case 3:
 		ctrlMode = argv[2];
-		if (boost::filesystem::exists(argv[1])
+		
+		if (!stat(argv[1], &buffer)
 				&& (strcmp(ctrlMode, "cc") == 0 || strcmp(ctrlMode, "-cc") == 0
 						|| strcmp(ctrlMode, "vc") == 0
 						|| strcmp(ctrlMode, "-vc") == 0)) {
-			printf(
-					"\nTrajectory to be played in %s mode: %s\n\n",
+			printf("\nTrajectory to be played in %s mode: %s\n\n",
 					strcmp(ctrlMode, "vc") == 0
 							|| strcmp(ctrlMode, "-vc") == 0 ?
 							"voltage control" : "current control", argv[1]);
