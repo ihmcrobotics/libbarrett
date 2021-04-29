@@ -15,7 +15,7 @@ cd && git clone https://git.barrett.com/software/libbarrett
 cd ~/libbarrett/scripts && ~/libbarrett/scripts/install_dependencies.sh
 ```
 
-Reboot into the new kernel (after reboot, "uname -r" should show "lowlatency"): 
+### Reboot into the new kernel (after reboot, "uname -r" should show "lowlatency"): 
 ```
 sudo reboot
 ```
