@@ -21,6 +21,14 @@ sudo reboot
 ```
 
 ### Build and install the Peak pcan driver
+We recommend the following CAN hardware:
+
+ - PCAN-PCI
+ - PCAN-PCIe
+ - PCAN-USB
+ - PCAN-ISA 
+
+NOTE: These cards are supported by the SocketCAN driver built into Linux, however, we have found that the SocketCAN txbuffer can occasionally fail to send CAN frames without reporting an error, and this causes the WAM to E-Stop itself unexpectedly. This can happen a few seconds, a few minutes, or even several hours after starting a WAM application. Fortunately, Peak offers an alternative driver (pcan) which is still socket-based but avoids this SocketCAN bug.
 ```
 sh ~/libbarrett/scripts/install_pcan.sh
 ```
