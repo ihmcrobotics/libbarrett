@@ -61,7 +61,7 @@ if (WITH_PYTHON)
 endif()
 
 
-set(libs ${Boost_LIBRARIES} ${GSL_LIBRARIES} config config++)  #TODO(dc): libconfig finder?
+set(libs ${Boost_LIBRARIES} ${GSL_LIBRARIES} config config++ pthread)  #TODO(dc): libconfig finder?
 if (WITH_PYTHON)
 	set(libs ${libs} ${PYTHON_LIBRARIES})
 endif()

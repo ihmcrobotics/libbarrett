@@ -347,7 +347,7 @@ std::vector<int> AutoTension<DOF>::tensionJoint(std::vector<int> joint_list) {
 		j1SlackPulled = 1.0;
 		if (std::find(joint_list.begin(), joint_list.end(), 1) != joint_list.end())
 			j1tens = true;
-		wam.moveTo(jpInitial[motor], 1.2, 0.75);
+		wam.moveTo(jpInitial[motor], true, 1.2, 0.75);
 		printf("\n**************************\n");
 		switch (joint) {
 		case 2:
@@ -359,7 +359,7 @@ std::vector<int> AutoTension<DOF>::tensionJoint(std::vector<int> joint_list) {
 			updateJ1Moves(2, j1tens);
 			printf("Tensioning Joint %s\n", (j1tens && joint != 1) ? "1, 2, and 3" : "2 and 3");
 			// Pull tension from J2
-			wam.moveTo(jpStart[1], 1.2, 0.75);
+			wam.moveTo(jpStart[1], true, 1.2, 0.75);
 			puck[1]->setProperty(Puck::TENSION, true);
 			btsleep(2.0);
 			if (!engage(1)) {
@@ -383,7 +383,7 @@ std::vector<int> AutoTension<DOF>::tensionJoint(std::vector<int> joint_list) {
 			updateJ1Moves(5, j1tens);
 			printf("Tensioning Joint %s\n", (j1tens && joint != 1) ? "1, 5, and 6" : "5 and 6");
 			// Pull tension from J5
-			wam.moveTo(jpStart[4], 1.2, 0.75);
+			wam.moveTo(jpStart[4], true, 1.2, 0.75);
 			puck[4]->setProperty(Puck::TENSION, true);
 			if (j6TangPos == 0.0) {
 				while (!engage(5, 10.0)) {
@@ -429,7 +429,7 @@ std::vector<int> AutoTension<DOF>::tensionJoint(std::vector<int> joint_list) {
 			break;
 		}
 
-		wam.moveTo(jpStart[motor], 1.2, 0.75);
+		wam.moveTo(jpStart[motor], true, 1.2, 0.75);
 
 		if (motor != 0 && j1tens) { // Engage tang and pull tension from J1
 			puck[0]->setProperty(Puck::TENSION, true);
@@ -508,20 +508,20 @@ std::vector<int> AutoTension<DOF>::tensionJoint(std::vector<int> joint_list) {
 		while (rep_cnt < reps) {
 			printf("%dx.. ", reps - rep_cnt);
 			fflush(stdout);
-			wam.moveTo(jpSlack2[motor], 1.2, 0.75);
-			wam.moveTo(jpSlack1[motor], 1.2, 0.75);
+			wam.moveTo(jpSlack2[motor], true, 1.2, 0.75);
+			wam.moveTo(jpSlack1[motor], true, 1.2, 0.75);
 			if (joint == 3) {
-				wam.moveTo(jpSlack1[1], 1.2, 0.75);
-				wam.moveTo(jpSlack2[1], 1.2, 0.75);
+				wam.moveTo(jpSlack1[1], true, 1.2, 0.75);
+				wam.moveTo(jpSlack2[1], true, 1.2, 0.75);
 			}
 			if (joint == 6) {
-				wam.moveTo(jpSlack1[4], 1.2, 0.75);
-				wam.moveTo(jpSlack2[4], 1.2, 0.75);
+				wam.moveTo(jpSlack1[4], true, 1.2, 0.75);
+				wam.moveTo(jpSlack2[4], true, 1.2, 0.75);
 			}
 			rep_cnt++;
 		}
 		printf("\n");
-		wam.moveTo(jpInitial[motor], 1.2, 0.75);
+		wam.moveTo(jpInitial[motor], true, 1.2, 0.75);
 		wam.moveHome();
 
 		//Remove J1 from list if enough tension pulled

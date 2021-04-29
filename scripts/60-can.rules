@@ -1,1 +1,1 @@
-RUN+="/bin/reset_can_non_xenomai.sh"
+RUN+="/bin/reset_can.sh"
