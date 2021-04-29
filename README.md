@@ -1,46 +1,70 @@
-# Libbarrett 2.0.0
+# Libbarrett 3.0.0
 > Libbarrett is a real-time controls library written in C++ that runs Barrett
 Technology products (WAM and BarrettHand)
 
-` This version of Libbarrett compiles at non-real-time kernel (standard Ubuntu 18.04 kernel) and should be used when hard real-time guarantee is not important for your application.`
+` This version of Libbarrett compiles at non-real-time kernel (low-latency Ubuntu 20.04 kernel) and should be used when hard real-time guarantee is not critical for your application.`
 
 
 ### Download package
 ```
-cd ~/
-git clone https://git.barrett.com/software/libbarrett.git
-cd libbarrett
+cd && git clone https://git.barrett.com/software/libbarrett
 ```
 
 ### Install depedencies
-Navigate to the scripts folder:
 ```
-cd scripts
-```
-Install the required dependencies:
-```
-./install-dependencies.sh
+cd ~/libbarrett/scripts && ~/libbarrett/scripts/install_dependencies.sh
 ```
 
-Setup your hardware for the communication with the CAN bus and reboot your system:
+Reboot into the new kernel (after reboot, "uname -r" should show "lowlatency"): 
 ```
-./setup-hardware.sh
 sudo reboot
 ```
 
-### Compile Libbarrett in non-realtime fashion
+### Build and install the Peak pcan driver
 ```
-cmake .
-make
+sh ~/libbarrett/scripts/install_pcan.sh
+```
+
+### For PCAN-ISA only, manually configure the driver (not plug-and-play): 
+```
+sudo tee /etc/modprobe.d/pcan.conf <<EOF
+options pcan type=isa,isa io=0x300,0x320 irq=7,5
+install pcan modprobe --ignore-install pcan
+EOF
+echo 'pcan' |sudo tee -a /etc/modules-load.d/modules.conf
+```
+
+### Reboot to use the new CAN driver (after reboot, both "cat /proc/pcan" and "ifconfig" should list can0): 
+```
+sudo reboot
+```
+
+### Build libbarrett (using clang)
+```
+export CC=/usr/bin/clang
+export CXX=/usr/bin/clang++
+cd ~/libbarrett && cmake .
+make -j$(nproc)
+```
+
+### Install libbarrett
+```
 sudo make install
 ```
 
+### Build the libbarrett example programs
+```
+cd ~/libbarrett/examples && cmake .
+make -j$(nproc)
+```
+
 ### Additional Makefile targets
-Update or install configuration files only
+Optional: Update or install configuration files only - not necessary if you have already done a full make (above)
 ```
 make install_config
 ```
-Package the library as a tar-ball 
+
+Optional: Package the library as a tar-ball (not common)
 ```
 make package
 ```
