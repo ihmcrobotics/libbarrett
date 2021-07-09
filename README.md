@@ -10,7 +10,7 @@ Technology products (WAM and BarrettHand)
 cd && git clone https://git.barrett.com/software/libbarrett
 ```
 
-### Install depedencies
+### Install dependencies
 ```
 cd ~/libbarrett/scripts && ~/libbarrett/scripts/install_dependencies.sh
 ```
