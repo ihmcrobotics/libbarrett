@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/). 
 
+## [dev-3.0.1]
+
+- Increased enumeration timeout from 1 ms to 5 ms
+
 ## [dev-3.0.0]
 
 - Python3 support
@@ -14,5 +18,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Improved mutex handling for non-rt operation
 - Offered Top10 tactile values from BHand for higher update rates
 
+[dev-3.0.1]: https://git.barrett.com/software/libbarrett/-/tags/dev-3.0.1
 [dev-3.0.0]: https://git.barrett.com/software/libbarrett/-/tags/dev-3.0.0
 
